@@ -35,6 +35,9 @@ ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <Library/DebugLib.h>
 
+#undef DEBUG_VERBOSE
+#define DEBUG_VERBOSE DEBUG_ERROR
+
 // IMPORTANT NOTE: This library is currently rife with multiple return statements
 //                 for error handling. A refactor should remove these at some point.
 
