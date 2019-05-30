@@ -76,7 +76,7 @@
   gEfiFaultTolerantWriteProtocolGuid
   gEfiVariableWriteArchProtocolGuid             ## PRODUCES
   gEfiVariableArchProtocolGuid                  ## PRODUCES
-  gEdkiiVariableLockProtocolGuid                ## PRODUCES
+  #gEdkiiVariableLockProtocolGuid                ## PRODUCES
   gEdkiiVarCheckProtocolGuid                    ## PRODUCES
 
 [Guids]

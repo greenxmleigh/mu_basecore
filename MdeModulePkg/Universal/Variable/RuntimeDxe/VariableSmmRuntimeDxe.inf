@@ -67,7 +67,7 @@
   ## NOTIFY
   ## UNDEFINED # Used to do smm communication
   gEfiSmmVariableProtocolGuid
-  gEdkiiVariableLockProtocolGuid                ## PRODUCES
+  #gEdkiiVariableLockProtocolGuid                ## PRODUCES
   gEdkiiVarCheckProtocolGuid                    ## PRODUCES
 
 [Guids]

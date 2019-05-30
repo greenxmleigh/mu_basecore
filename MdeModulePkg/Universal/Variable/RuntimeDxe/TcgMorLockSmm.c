@@ -490,11 +490,12 @@ MorLockInitAtEndOfDxe (
   // The MOR variable is absent; the platform firmware does not support it.
   // Lock the variable so that no other module may create it.
   //
-  VariableLockRequestToLock (
-    NULL,                                   // This
-    MEMORY_OVERWRITE_REQUEST_VARIABLE_NAME,
-    &gEfiMemoryOverwriteControlDataGuid
-    );
+  // TODO VARPOL: Come back and make this direct.
+  // VariableLockRequestToLock (
+  //   NULL,                                   // This
+  //   MEMORY_OVERWRITE_REQUEST_VARIABLE_NAME,
+  //   &gEfiMemoryOverwriteControlDataGuid
+  //   );
 
   //
   // Delete the MOR Control Lock variable too (should it exists for some
@@ -510,9 +511,10 @@ MorLockInitAtEndOfDxe (
     );
   mMorLockPassThru = FALSE;
 
-  VariableLockRequestToLock (
-    NULL,                                       // This
-    MEMORY_OVERWRITE_REQUEST_CONTROL_LOCK_NAME,
-    &gEfiMemoryOverwriteRequestControlLockGuid
-    );
+  // TODO VARPOL: Come back and make this direct.
+  // VariableLockRequestToLock (
+  //   NULL,                                       // This
+  //   MEMORY_OVERWRITE_REQUEST_CONTROL_LOCK_NAME,
+  //   &gEfiMemoryOverwriteRequestControlLockGuid
+  //   );
 }
