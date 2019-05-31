@@ -68,6 +68,8 @@
   TpmMeasurementLib
   AuthVariableLib
   VarCheckLib
+  ## MU_CHANGE - Remove VariableLockRequestToLock() in lieu of VariablePolicy.
+  MuVariablePolicyHelperLib
 
 [Protocols]
   gEfiFirmwareVolumeBlockProtocolGuid           ## CONSUMES
