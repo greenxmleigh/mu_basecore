@@ -23,7 +23,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #include <Library/BaseMemoryLib.h>
 #include "Variable.h"
 
-extern EDKII_VARIABLE_LOCK_PROTOCOL     mVariableLock;
+// extern EDKII_VARIABLE_LOCK_PROTOCOL     mVariableLock;
 
 /**
   This service is an MOR/MorLock checker handler for the SetVariable().
@@ -86,7 +86,7 @@ MorLockInit (
   //
   // Need set this variable to be read-only to prevent other module set it.
   //
-  VariableLockRequestToLock (&mVariableLock, MEMORY_OVERWRITE_REQUEST_CONTROL_LOCK_NAME, &gEfiMemoryOverwriteRequestControlLockGuid);
+  VariableLockRequestToLock (NULL, MEMORY_OVERWRITE_REQUEST_CONTROL_LOCK_NAME, &gEfiMemoryOverwriteRequestControlLockGuid);
 
   //
   // The MOR variable can effectively improve platform security only when the
@@ -106,7 +106,7 @@ MorLockInit (
     NULL                                    // Data
     );
   VariableLockRequestToLock (
-    &mVariableLock,
+    NULL,
     MEMORY_OVERWRITE_REQUEST_VARIABLE_NAME,
     &gEfiMemoryOverwriteControlDataGuid
     );
