@@ -202,7 +202,7 @@
   #
   CapsulePersistLib|Include/Library/CapsulePersistLib.h
 
-  ## MU_CHANGE
+  ## MU_CHANGE - Remove VariableLockRequestToLock() in lieu of VariablePolicy.
   ##  @libraryclass  This library contains helper functions for marshalling and
   #   registering new policies with the VariablePolicy infrastructure.
   #

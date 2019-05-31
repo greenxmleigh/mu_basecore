@@ -76,6 +76,7 @@
   gEfiFaultTolerantWriteProtocolGuid
   gEfiVariableWriteArchProtocolGuid             ## PRODUCES
   gEfiVariableArchProtocolGuid                  ## PRODUCES
+  ## MU_CHANGE - Remove VariableLockRequestToLock() in lieu of VariablePolicy.
   #gEdkiiVariableLockProtocolGuid                ## PRODUCES
   gEdkiiVarCheckProtocolGuid                    ## PRODUCES
 

@@ -67,6 +67,7 @@
   ## NOTIFY
   ## UNDEFINED # Used to do smm communication
   gEfiSmmVariableProtocolGuid
+  ## MU_CHANGE - Remove VariableLockRequestToLock() in lieu of VariablePolicy.
   #gEdkiiVariableLockProtocolGuid                ## PRODUCES
   gEdkiiVarCheckProtocolGuid                    ## PRODUCES
 

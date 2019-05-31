@@ -469,6 +469,7 @@ SmmVariableHandler (
   SMM_VARIABLE_COMMUNICATE_QUERY_VARIABLE_INFO     *QueryVariableInfo;
   SMM_VARIABLE_COMMUNICATE_GET_PAYLOAD_SIZE        *GetPayloadSize;
   VARIABLE_INFO_ENTRY                              *VariableInfo;
+  // MU_CHANGE - Remove VariableLockRequestToLock() in lieu of VariablePolicy.
   // SMM_VARIABLE_COMMUNICATE_LOCK_VARIABLE           *VariableToLock;
   SMM_VARIABLE_COMMUNICATE_VAR_CHECK_VARIABLE_PROPERTY *CommVariableProperty;
   UINTN                                            InfoSize;
@@ -721,7 +722,7 @@ SmmVariableHandler (
       *CommBufferSize = InfoSize + SMM_VARIABLE_COMMUNICATE_HEADER_SIZE;
       break;
 
-    // TODO VARPOL: Remove and comment.
+    // MU_CHANGE [BEGIN] - Remove VariableLockRequestToLock() in lieu of VariablePolicy.
     // case SMM_VARIABLE_FUNCTION_LOCK_VARIABLE:
     //   if (mEndOfDxe) {
     //     Status = EFI_ACCESS_DENIED;
@@ -734,6 +735,7 @@ SmmVariableHandler (
     //                );
     //   }
     //   break;
+    // MU_CHANGE [END]
     case SMM_VARIABLE_FUNCTION_VAR_CHECK_VARIABLE_PROPERTY_SET:
       if (mEndOfDxe) {
         Status = EFI_ACCESS_DENIED;

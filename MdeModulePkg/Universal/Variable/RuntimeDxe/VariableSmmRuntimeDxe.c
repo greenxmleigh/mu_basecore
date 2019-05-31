@@ -202,6 +202,7 @@ SendCommunicateBuffer (
                                 already been signaled.
   @retval EFI_OUT_OF_RESOURCES  There is not enough resource to hold the lock request.
 **/
+// MU_CHANGE [BEGIN] - Remove VariableLockRequestToLock() in lieu of VariablePolicy.
 // EFI_STATUS
 // EFIAPI
 // VariableLockRequestToLock (
@@ -255,6 +256,7 @@ SendCommunicateBuffer (
 //   ReleaseLockOnlyAtBootTime (&mVariableServicesLock);
 //   return Status;
 // }
+// MU_CHANGE [END]
 
 /**
   Register SetVariable check handler.
@@ -1029,6 +1031,7 @@ SmmVariableReady (
                   );
   ASSERT_EFI_ERROR (Status);
 
+  // MU_CHANGE - Remove VariableLockRequestToLock() in lieu of VariablePolicy.
   // mVariableLock.RequestToLock = VariableLockRequestToLock;
   // Status = gBS->InstallMultipleProtocolInterfaces (
   //                 &mHandle,

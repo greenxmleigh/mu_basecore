@@ -23,10 +23,12 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #include <Library/BaseMemoryLib.h>
 #include "Variable.h"
 
+// MU_CHANGE [BEGIN] - Remove VariableLockRequestToLock() in lieu of VariablePolicy.
 #include <Protocol/VariablePolicy.h>
 
 #include <Library/MuVariablePolicyHelperLib.h>
 #include <Library/UefiVariablePolicyLib.h>
+// MU_CHANGE [END]
 
 typedef struct {
   CHAR16                                 *VariableName;
@@ -423,6 +425,7 @@ MorLockInitAtEndOfDxe (
 {
   UINTN      MorSize;
   EFI_STATUS MorStatus;
+  // MU_CHANGE - Remove VariableLockRequestToLock() in lieu of VariablePolicy.
   EFI_STATUS              Status;
   VARIABLE_POLICY_ENTRY   *NewPolicy;
 
@@ -497,6 +500,7 @@ MorLockInitAtEndOfDxe (
   // The MOR variable is absent; the platform firmware does not support it.
   // Lock the variable so that no other module may create it.
   //
+  // MU_CHANGE [BEGIN] - Remove VariableLockRequestToLock() in lieu of VariablePolicy.
   NewPolicy = NULL;
   Status = CreateBasicVariablePolicy( &gEfiMemoryOverwriteControlDataGuid,
                                       MEMORY_OVERWRITE_REQUEST_VARIABLE_NAME,
@@ -516,6 +520,7 @@ MorLockInitAtEndOfDxe (
   if (NewPolicy != NULL) {
     FreePool( NewPolicy );
   }
+  // MU_CHANGE [END]
 
   //
   // Delete the MOR Control Lock variable too (should it exists for some
@@ -531,6 +536,7 @@ MorLockInitAtEndOfDxe (
     );
   mMorLockPassThru = FALSE;
 
+  // MU_CHANGE [BEGIN] - Remove VariableLockRequestToLock() in lieu of VariablePolicy.
   NewPolicy = NULL;
   Status = CreateBasicVariablePolicy( &gEfiMemoryOverwriteRequestControlLockGuid,
                                       MEMORY_OVERWRITE_REQUEST_CONTROL_LOCK_NAME,
@@ -550,4 +556,5 @@ MorLockInitAtEndOfDxe (
   if (NewPolicy != NULL) {
     FreePool( NewPolicy );
   }
+  // MU_CHANGE [END]
 }
