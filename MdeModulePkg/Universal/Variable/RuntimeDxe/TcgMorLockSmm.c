@@ -23,6 +23,11 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
 #include <Library/BaseMemoryLib.h>
 #include "Variable.h"
 
+#include <Protocol/VariablePolicy.h>
+
+#include <Library/MuVariablePolicyHelperLib.h>
+#include <Library/UefiVariablePolicyLib.h>
+
 typedef struct {
   CHAR16                                 *VariableName;
   EFI_GUID                               *VendorGuid;
@@ -418,6 +423,8 @@ MorLockInitAtEndOfDxe (
 {
   UINTN      MorSize;
   EFI_STATUS MorStatus;
+  EFI_STATUS              Status;
+  VARIABLE_POLICY_ENTRY   *NewPolicy;
 
   if (!mMorLockInitializationRequired) {
     //
@@ -490,12 +497,25 @@ MorLockInitAtEndOfDxe (
   // The MOR variable is absent; the platform firmware does not support it.
   // Lock the variable so that no other module may create it.
   //
-  // TODO VARPOL: Come back and make this direct.
-  // VariableLockRequestToLock (
-  //   NULL,                                   // This
-  //   MEMORY_OVERWRITE_REQUEST_VARIABLE_NAME,
-  //   &gEfiMemoryOverwriteControlDataGuid
-  //   );
+  NewPolicy = NULL;
+  Status = CreateBasicVariablePolicy( &gEfiMemoryOverwriteControlDataGuid,
+                                      MEMORY_OVERWRITE_REQUEST_VARIABLE_NAME,
+                                      VARIABLE_POLICY_NO_MIN_SIZE,
+                                      VARIABLE_POLICY_NO_MAX_SIZE,
+                                      VARIABLE_POLICY_NO_MUST_ATTR,
+                                      VARIABLE_POLICY_NO_CANT_ATTR,
+                                      VARIABLE_POLICY_TYPE_LOCK_NOW,
+                                      &NewPolicy );
+  if (!EFI_ERROR( Status )) {
+    Status = RegisterVariablePolicy( NewPolicy );
+  }
+  if (EFI_ERROR( Status )) {
+    DEBUG(( DEBUG_ERROR, "%a - Failed to lock variable %s! %r\n", __FUNCTION__, MEMORY_OVERWRITE_REQUEST_VARIABLE_NAME, Status ));
+    ASSERT_EFI_ERROR( Status );
+  }
+  if (NewPolicy != NULL) {
+    FreePool( NewPolicy );
+  }
 
   //
   // Delete the MOR Control Lock variable too (should it exists for some
@@ -511,10 +531,23 @@ MorLockInitAtEndOfDxe (
     );
   mMorLockPassThru = FALSE;
 
-  // TODO VARPOL: Come back and make this direct.
-  // VariableLockRequestToLock (
-  //   NULL,                                       // This
-  //   MEMORY_OVERWRITE_REQUEST_CONTROL_LOCK_NAME,
-  //   &gEfiMemoryOverwriteRequestControlLockGuid
-  //   );
+  NewPolicy = NULL;
+  Status = CreateBasicVariablePolicy( &gEfiMemoryOverwriteRequestControlLockGuid,
+                                      MEMORY_OVERWRITE_REQUEST_CONTROL_LOCK_NAME,
+                                      VARIABLE_POLICY_NO_MIN_SIZE,
+                                      VARIABLE_POLICY_NO_MAX_SIZE,
+                                      VARIABLE_POLICY_NO_MUST_ATTR,
+                                      VARIABLE_POLICY_NO_CANT_ATTR,
+                                      VARIABLE_POLICY_TYPE_LOCK_NOW,
+                                      &NewPolicy );
+  if (!EFI_ERROR( Status )) {
+    Status = RegisterVariablePolicy( NewPolicy );
+  }
+  if (EFI_ERROR( Status )) {
+    DEBUG(( DEBUG_ERROR, "%a - Failed to lock variable %s! %r\n", __FUNCTION__, MEMORY_OVERWRITE_REQUEST_CONTROL_LOCK_NAME, Status ));
+    ASSERT_EFI_ERROR( Status );
+  }
+  if (NewPolicy != NULL) {
+    FreePool( NewPolicy );
+  }
 }
